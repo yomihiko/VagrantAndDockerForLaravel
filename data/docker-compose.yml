@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build: web
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      TZ: Asia/Tokyo
+    volumes:
+     - ./web/setting/php.ini:/usr/local/etc/php/php.ini
+     - ./web/site:/var/www/html
+     - ./web/setting/000-default.conf:/etc/apache2/sites-available/000-default.conf
+  maria:
+    image: mariadb:10.4.8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: ${USER_NAME}
+      MYSQL_PASSWORD: ${USER_PASS}
+      TZ: Asia/Tokyo
